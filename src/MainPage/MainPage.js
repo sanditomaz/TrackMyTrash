@@ -15,7 +15,7 @@ export default function MainPage() {
 
   const handleSubmit = (e) => {
     alert(
-      "Loading may take a little longer at first try, please don't give up waiting and hold on just a little...   🙏 🙏😄😄"
+      "Loading may take up to 40 seconds at times, please don't give up waiting and hold on just a little... 😅😅"
     );
     setShowError(false);
     setDisable(true);
@@ -86,7 +86,7 @@ export default function MainPage() {
         ) : (
           ""
         )}
-        {showError ? <h6>Adresse Invalide</h6> : ""}
+        {showError ? <h6>Adresse invalide, veuillez réessayer!</h6> : ""}
       </nav>
     </Main>
   );
