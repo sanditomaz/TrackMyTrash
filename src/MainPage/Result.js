@@ -1,25 +1,62 @@
 import styled from "styled-components";
 import { IoIosPin } from "react-icons/io";
+import { useEffect, useState } from "react";
 
-export default function Result() {
+export default function Result({ data, showError, bottomRef }) {
+  const [address, setAddress] = useState();
+  const params = {
+    api: "1",
+    query: address,
+  };
+
+  const encoded = encodeURI(params.query);
+  const url = `https://www.google.com/maps/search/?api=${params.api}&query=${encoded}`;
+
+  useEffect(() => {
+    if (encoded !== "undefined") {
+      handleClick();
+    }
+  }, [encoded]);
+
+  const handleClick = () => {
+    if (encoded !== "undefined") window.location.href = `${url}`;
+  };
+
   return (
     <Header>
-      <h6>Click on adress to open Google Maps</h6>
-
-      <h2>
-        <IoIosPin color="red" />
-        R. Niterói, 180 - Jardim Maria Helena, Barueri - SP, 06445-090
-      </h2>
-
-      <h2>
-        <IoIosPin color="red" />
-        adress2
-      </h2>
-
-      <h2>
-        <IoIosPin color="red" />
-        adress3
-      </h2>
+      {showError ? (
+        <h6>No locations found</h6>
+      ) : (
+        <>
+          <h6>Click on the adress to open Google Maps...</h6>
+          {data.map((i, index) => (
+            <>
+              {index !== 2 ? (
+                <h2
+                  key={index}
+                  onClick={() => {
+                    setAddress(i.formatted_address);
+                    handleClick();
+                  }}
+                >
+                  <IoIosPin color="red" /> {i.Nom}: {i.formatted_address}
+                </h2>
+              ) : (
+                <h2
+                  key={index}
+                  ref={bottomRef}
+                  onClick={() => {
+                    setAddress(i.formatted_address);
+                    handleClick();
+                  }}
+                >
+                  <IoIosPin color="red" /> {i.Nom}: {i.formatted_address}
+                </h2>
+              )}
+            </>
+          ))}
+        </>
+      )}
     </Header>
   );
 }
@@ -39,12 +76,15 @@ const Header = styled.header`
 
   h6 {
     font-family: "Roboto", sans-serif;
+    font-style: italic;
     font-size: 19px;
     font-weight: 500;
-    color: #ffffff;
+    color: #000000;
     text-align: center;
+    opacity: 0.7;
     line-height: 20px;
     width: 100%;
+    word-break: break-word;
   }
 
   h2 {
@@ -56,6 +96,8 @@ const Header = styled.header`
     line-height: 20px;
     width: 100%;
     gap: 5px;
+    display: inline;
+    word-break: break-all;
   }
 
   h2:hover {

@@ -2,35 +2,93 @@ import { ThreeDots } from "react-loader-spinner";
 import React from "react";
 import styled from "styled-components";
 import Result from "./Result";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import axios from "axios";
 
-export default function MainPage({ goMain, setGoMain }) {
+export default function MainPage() {
+  const [showResult, setShowResult] = useState(false);
+  const [showError, setShowError] = useState(false);
+  const [form, setForm] = useState({});
+  const [data, setData] = useState();
+  const [disable, setDisable] = useState(false);
+  const bottomRef = useRef(null);
+
+  const handleSubmit = (e) => {
+    alert(
+      "Loading may take a little longer at first try, please don't give up waiting and hold on just a little...   🙏 🙏😄😄"
+    );
+    setShowError(false);
+    setDisable(true);
+    setShowResult(false);
+    e.preventDefault();
+    e.target.reset();
+
+    const promise = axios.post("https://track-my-trash.onrender.com", form);
+    promise.then((res) => {
+      setData(res.data);
+      setShowResult(true);
+      setDisable(false);
+      bottomRef.current.scrollIntoView({ behavior: "smooth" });
+    });
+    promise.catch((err) => {
+      setDisable(false);
+      setShowError(true);
+      console.log(err);
+    });
+  };
+
+  const handleForm = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  console.log(form);
+  console.log(data);
+
   return (
     <Main>
       <nav>
         <div className="logo">Track My Trash ♻️</div>
         <div className="description">
-          Type your adress, choose the material type and press submit
+          Type your adress, choose the material type and press the enter button
+          to find the nearest recycler
         </div>
-        <form>
+        <form onSubmit={handleSubmit}>
           <input
             type="text"
-            name="adress"
-            placeholder="Type your adress"
+            name="address"
+            placeholder="Type your address"
+            onChange={handleForm}
             required
           />
 
-          <select name="material" required>
+          <select name="trash_type" required onChange={handleForm}>
             <option value="">Select material type</option>
             <option value="amiantes">amiantes</option>
             <option value="dangereux">dangeroux</option>
             <option value="non_dangereux">non dangeroux</option>
           </select>
 
-          <button>Submit</button>
+          <button>
+            {!disable ? (
+              "Submit"
+            ) : (
+              <ThreeDots
+                height="40"
+                width="60"
+                radius="9"
+                color="#FFFFFF"
+                ariaLabel="three-dots-loading"
+                wrapperStyle
+                wrapperClass
+              />
+            )}
+          </button>
         </form>
-        <Result />
+        {showResult ? (
+          <Result data={data} showError={showError} bottomRef={bottomRef} />
+        ) : (
+          ""
+        )}
       </nav>
     </Main>
   );
@@ -59,6 +117,7 @@ const Main = styled.main`
       font-size: 68px;
       font-weight: 700;
       color: #fefefe;
+      opacity: 0.9;
       font-family: "Oswald", sans-serif;
       padding-bottom: 10px;
       text-align: center;
@@ -69,11 +128,14 @@ const Main = styled.main`
       font-family: "Roboto", sans-serif;
       font-size: 20px;
       font-weight: 400;
-      color: #fefefe;
+      color: #000000;
+      opacity: 0.5;
       line-height: 17px;
       padding-top: 20px;
       text-align: center;
       line-height: 20px;
+      max-width: 600px;
+      width: 100%;
     }
 
     form {
@@ -95,6 +157,7 @@ const Main = styled.main`
         box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
         border: 1px solid #d5d3d2;
         background-color: white;
+        opacity: 0.9;
         padding-left: 10px;
         color: gray;
       }
@@ -107,6 +170,7 @@ const Main = styled.main`
         box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
         border: 1px solid #d5d3d2;
         background-color: white;
+        opacity: 0.9;
         padding-left: 10px;
         color: gray;
       }
