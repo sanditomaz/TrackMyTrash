@@ -9,6 +9,8 @@ export default function Result({ data, showError, bottomRef }) {
     query: address,
   };
 
+  console.log(address);
+
   const encoded = encodeURI(params.query);
   const url = `https://www.google.com/maps/search/?api=${params.api}&query=${encoded}`;
 
@@ -35,7 +37,7 @@ export default function Result({ data, showError, bottomRef }) {
                 <h2
                   key={index}
                   onClick={() => {
-                    setAddress(i.formatted_address);
+                    setAddress(i.Nom, i.formatted_address);
                     handleClick();
                   }}
                 >
@@ -46,7 +48,7 @@ export default function Result({ data, showError, bottomRef }) {
                   key={index}
                   ref={bottomRef}
                   onClick={() => {
-                    setAddress(i.formatted_address);
+                    setAddress(i.Nom, i.formatted_address);
                     handleClick();
                   }}
                 >
