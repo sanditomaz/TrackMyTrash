@@ -2,14 +2,12 @@ import styled from "styled-components";
 import { IoIosPin } from "react-icons/io";
 import { useEffect, useState } from "react";
 
-export default function Result({ data, showError, bottomRef }) {
+export default function Result({ data, bottomRef }) {
   const [address, setAddress] = useState();
   const params = {
     api: "1",
     query: address,
   };
-
-  console.log(address);
 
   const encoded = encodeURI(params.query);
   const url = `https://www.google.com/maps/search/?api=${params.api}&query=${encoded}`;
@@ -26,39 +24,35 @@ export default function Result({ data, showError, bottomRef }) {
 
   return (
     <Header>
-      {showError ? (
-        <h6>No locations found</h6>
-      ) : (
-        <>
-          <h6>Click on the adress to open Google Maps...</h6>
-          {data.map((i, index) => (
-            <>
-              {index !== 2 ? (
-                <h2
-                  key={index}
-                  onClick={() => {
-                    setAddress(i.Nom, i.formatted_address);
-                    handleClick();
-                  }}
-                >
-                  <IoIosPin color="red" /> {i.Nom}: {i.formatted_address}
-                </h2>
-              ) : (
-                <h2
-                  key={index}
-                  ref={bottomRef}
-                  onClick={() => {
-                    setAddress(i.Nom, i.formatted_address);
-                    handleClick();
-                  }}
-                >
-                  <IoIosPin color="red" /> {i.Nom}: {i.formatted_address}
-                </h2>
-              )}
-            </>
-          ))}
-        </>
-      )}
+      <>
+        <h6>Tapez sur l'adresse pour ouvrir Google Maps...</h6>
+        {data.map((i, index) => (
+          <>
+            {index !== 2 ? (
+              <h2
+                key={index}
+                onClick={() => {
+                  setAddress(i.Nom, i.formatted_address);
+                  handleClick();
+                }}
+              >
+                <IoIosPin color="red" /> {i.Nom}: {i.formatted_address}
+              </h2>
+            ) : (
+              <h2
+                key={index}
+                ref={bottomRef}
+                onClick={() => {
+                  setAddress(i.Nom, i.formatted_address);
+                  handleClick();
+                }}
+              >
+                <IoIosPin color="red" /> {i.Nom}: {i.formatted_address}
+              </h2>
+            )}
+          </>
+        ))}
+      </>
     </Header>
   );
 }

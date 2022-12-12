@@ -41,36 +41,33 @@ export default function MainPage() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  console.log(form);
-  console.log(data);
-
   return (
     <Main>
       <nav>
         <div className="logo">Track My Trash ♻️</div>
         <div className="description">
-          Type your adress, choose the material type and press the enter button
-          to find the nearest recycler
+          Tapez votre adresse, choisissez le type de matériel et appuyez sur le
+          bouton Entrée pour trouver le point de collecte le plus proche
         </div>
         <form onSubmit={handleSubmit}>
           <input
             type="text"
             name="address"
-            placeholder="Type your address"
+            placeholder="Tapez votre adresse"
             onChange={handleForm}
             required
           />
 
           <select name="trash_type" required onChange={handleForm}>
-            <option value="">Select material type</option>
-            <option value="amiantes">amiantes</option>
-            <option value="dangereux">dangeroux</option>
-            <option value="non_dangereux">non dangeroux</option>
+            <option value="">Tapez le type de matériel</option>
+            <option value="amiantes">Amiantes</option>
+            <option value="dangereux">Dangeroux</option>
+            <option value="non_dangereux">Non dangeroux</option>
           </select>
 
           <button>
             {!disable ? (
-              "Submit"
+              "Entrée"
             ) : (
               <ThreeDots
                 height="40"
@@ -89,6 +86,7 @@ export default function MainPage() {
         ) : (
           ""
         )}
+        {showError ? <h6>Adresse Invalide</h6> : ""}
       </nav>
     </Main>
   );
@@ -190,6 +188,19 @@ const Main = styled.main`
         align-items: center;
         justify-content: center;
       }
+    }
+
+    h6 {
+      font-family: "Roboto", sans-serif;
+      font-style: italic;
+      font-size: 19px;
+      font-weight: 500;
+      color: #000000;
+      text-align: center;
+      opacity: 0.7;
+      line-height: 20px;
+      width: 100%;
+      word-break: break-word;
     }
   }
 `;
