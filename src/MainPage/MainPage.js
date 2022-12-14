@@ -14,9 +14,6 @@ export default function MainPage() {
   const bottomRef = useRef(null);
 
   const handleSubmit = (e) => {
-    alert(
-      "Loading may take up to 40 seconds at times, please don't give up waiting and hold on just a little... 😅😅"
-    );
     setShowError(false);
     setDisable(true);
     setShowResult(false);
