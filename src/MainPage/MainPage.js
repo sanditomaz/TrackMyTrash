@@ -56,7 +56,7 @@ export default function MainPage() {
           />
 
           <select name="trash_type" required onChange={handleForm}>
-            <option value="">Tapez le type de matériel</option>
+            <option value="">Choisissez le type de matériel</option>
             <option value="amiantes">Amiantes</option>
             <option value="dangereux">Dangeroux</option>
             <option value="non_dangereux">Non dangeroux</option>
