@@ -44,7 +44,7 @@ export default function MainPage() {
         <div className="logo">Track My Trash ♻️</div>
         <div className="description">
           Tapez votre adresse, choisissez le type de matériel et appuyez sur le
-          bouton Entrée pour trouver le point de collecte le plus proche
+          bouton Soumettre pour trouver le point de collecte le plus proche
         </div>
         <form onSubmit={handleSubmit}>
           <input
