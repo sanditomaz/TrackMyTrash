@@ -64,7 +64,7 @@ export default function MainPage() {
 
           <button>
             {!disable ? (
-              "Entrée"
+              "Soumettre"
             ) : (
               <ThreeDots
                 height="40"
